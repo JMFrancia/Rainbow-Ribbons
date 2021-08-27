@@ -2,8 +2,6 @@
 
 public class RibbonSlot : MonoBehaviour
 {
-    [SerializeField] GameObject ribbonPrefab;
-
     RectTransform _rectTransform;
     RibbonUI _ribbonUI;
 
@@ -12,7 +10,7 @@ public class RibbonSlot : MonoBehaviour
         _rectTransform = GetComponent<RectTransform>();
     }
 
-    void AssignRibbon(RibbonUI ribbon, bool animation) {
+    public void AssignRibbon(RibbonUI ribbon, bool animation) {
         _ribbonUI = ribbon;
         ribbon.GetComponent<RectTransform>().sizeDelta = new Vector2(_rectTransform.rect.width, _rectTransform.rect.width);
         if (animation)
@@ -23,7 +21,7 @@ public class RibbonSlot : MonoBehaviour
         {
             ribbon.transform.position = transform.position;
         }
-        ribbon.slot = this;
+        ribbon.Slot = this;
     }
 
     private void OnDrawGizmos()

@@ -6,12 +6,30 @@ using UnityEngine.EventSystems;
 
 public class RibbonUI : MonoBehaviour
 {
-    public RibbonSlot slot;
-    [SerializeField] ColorNames _color;
+    public RibbonSlot Slot {
+        get {
+            return _slot;
+        }
+        set {
+            _slot = value;
+        }
+    }
+
+    public ColorNames RibbonColor {
+        get {
+            return _color;
+        }
+        set {
+            _color = value;
+        }
+    }
+
     [SerializeField] float _hoverSizeMultiplier = 2f;
 
     static float _maxRaycastDistance = Mathf.Infinity;
 
+    RibbonSlot _slot;
+    ColorNames _color;
     int _colliderMask;
     bool _hovering = false;
     Vector3 _originalScale;
@@ -69,6 +87,7 @@ public class RibbonUI : MonoBehaviour
 
     void OnEndDrag(PointerEventData data) {
         if (_hovering) {
+            Debug.Log(_color + " ribbon dropped on Lion");
             //if(GameManager.instance.CheckRibbon(_color)) {
             //    //Correct noise
             //    Destroy(gameObject);
@@ -87,6 +106,6 @@ public class RibbonUI : MonoBehaviour
     }
 
     public void ReturnToSlot() {
-        LeanTween.move(gameObject, slot.transform, .5f).setEase(LeanTweenType.easeOutBounce);
+        LeanTween.move(gameObject, _slot.transform, .5f).setEase(LeanTweenType.easeOutBounce);
     }
 }
