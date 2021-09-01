@@ -16,19 +16,28 @@ public class Ribbon : MonoBehaviour
         _ghost = false;
     }
 
-    private void Update()
-    {
+    void UpdateColor() {
+        Material temp = new Material(GetRenderer().sharedMaterial);
         if (_ghost)
         {
             Color color = _ghostColor;
             color.a = _ghostAlpha;
-            GetRenderer().material.color = color;
+            temp.color = color;
         }
-        else {
-            GetRenderer().material.color = _color;
-            GetRenderer().material.SetColor("_EmissionColor", _color / 2);
+        else
+        {
+            temp.color = _color;
+            temp.SetColor("_EmissionColor", _color / 2);
         }
-        GetRenderer().material.color = _color;
+        GetRenderer().material = temp;
+    }
+
+    private void Update()
+    {
+        if (!Application.isPlaying)
+        {
+            UpdateColor();
+        }
     }
 
     Renderer GetRenderer() {

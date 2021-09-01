@@ -86,22 +86,20 @@ public class RibbonUI : MonoBehaviour
     }
 
     void OnEndDrag(PointerEventData data) {
-        if (_hovering) {
-            Debug.Log(_color + " ribbon dropped on Lion");
-            //if(GameManager.instance.CheckRibbon(_color)) {
-            //    //Correct noise
-            //    Destroy(gameObject);
-            //} else
-            //{
-            //    //Exit noise
-            //    ExitHover();
-            //    ReturnToSlot();
-            //}
-        }
-        else
+        if (_hovering)
         {
-            ExitHover();
-            ReturnToSlot();
+            Debug.Log(_color + " ribbon dropped on Lion");
+            if (GameManager.Instance.CurrentColor == _color)
+            {
+                GameManager.Instance.CorrectChoice();
+                Destroy(gameObject);
+            }
+            else
+            {
+                GameManager.Instance.IncorrectChoice();
+                ExitHover();
+                ReturnToSlot();
+            }
         }
     }
 

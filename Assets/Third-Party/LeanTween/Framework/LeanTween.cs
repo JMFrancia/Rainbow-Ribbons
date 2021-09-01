@@ -2859,9 +2859,7 @@ public class LeanTween : MonoBehaviour {
             }
         }
     }
-
-
-} // End LeanTween class
+} 
 
 public class LTUtility {
 
