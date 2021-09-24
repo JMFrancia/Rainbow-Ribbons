@@ -14,6 +14,7 @@ public class Ribbon : MonoBehaviour
         _color = color;
         //Animate
         _ghost = false;
+        UpdateColor();
     }
 
     void UpdateColor() {

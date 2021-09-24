@@ -101,6 +101,10 @@ public class RibbonUI : MonoBehaviour
                 ReturnToSlot();
             }
         }
+        else
+        {
+            ReturnToSlot();
+        }
     }
 
     public void ReturnToSlot() {
