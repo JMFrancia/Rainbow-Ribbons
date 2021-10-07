@@ -30,11 +30,17 @@ public class PlaceOnPlaneLP : MonoBehaviour
         m_RaycastManager = GetComponent<ARRaycastManager>();
     }
 
+    /*
+     * Start by activating the targetIndicator obj (IE portals)
+     */
     void Start()
     {
         targetIndicator.gameObject.SetActive(false);
     }
 
+    /*
+     * On update, ShowTarget(), meaning 
+     */
     void Update()
     {
         ShowTarget();
@@ -42,17 +48,22 @@ public class PlaceOnPlaneLP : MonoBehaviour
 
     private void ShowTarget()
     {
+        //If AR session running and device able to determine its orientation, send a raycast from center of screen
         if (ARSession.state == ARSessionState.SessionTracking &&
             m_RaycastManager.Raycast(new Vector2(Screen.width / 2, Screen.height / 2), s_Hits, TrackableType.PlaneWithinPolygon))
         {
+            //If we have a hit...
             if (s_Hits.Count > 0)
             {
+                //Mark placement status (as able to place)
                 if (PlacementStatus == Status.Finding)
                     PlacementStatus = Status.CanPlace;
 
+                //Move target indicator (portals) to most recent position)
                 var hitPose = s_Hits[s_Hits.Count - 1].pose;
                 targetIndicator.position = hitPose.position;
 
+                //Update the indicator based on whether or not target is in range
                 var distanceVector = hitPose.position - sessionOrigin.camera.transform.position;
                 var targetDistance = new TargetDistance
                 {
@@ -62,15 +73,20 @@ public class PlaceOnPlaneLP : MonoBehaviour
 
                 UpdateIndicator(distanceVector);
 
+                //If user is touching a game object while the placement status is "CanPlace"
                 if (!IsPointerOverGameObject() && PlacementStatus == Status.CanPlace)
                 {
 #if !UNITY_EDITOR
+                    //If user is touching the screen
                     if (Input.touchCount > 0)
                     {
                         Touch touch = Input.GetTouch(0);
                         Rect topScreen = new Rect(0, Screen.height / 3, Screen.width, Screen.height);
+
+                        //If the touch is on the top third of the screen...
                         if (touch.phase == TouchPhase.Began && topScreen.Contains(Input.GetTouch(0).position))
                         {
+                            //Invoke onObjectPlaced event, set status accordingly
                             PlacementStatus = Status.Placed;
                             onObjectPlaced?.Invoke(hitPose, targetDistance);
                         }
@@ -90,6 +106,7 @@ public class PlaceOnPlaneLP : MonoBehaviour
             }
         }
 
+        //Turn off target indicator if placement status is no longer canPlace
         targetIndicator.gameObject.SetActive(PlacementStatus == Status.CanPlace);
     }
 
