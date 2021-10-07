@@ -6,9 +6,8 @@ using UnityEngine.XR.ARFoundation;
 public class ARHandler : MonoBehaviour
 {
     [SerializeField] GameObject objectToPlace;
-    [SerializeField] ARCameraManager arCameraManager;
     [SerializeField] Camera arCamera;
-    [SerializeField] Transform arRoot;
+    [SerializeField] bool rotatePlacedObjOnUpdate = false;
 
     GameObject spawnedObj;
 
@@ -39,7 +38,7 @@ public class ARHandler : MonoBehaviour
 
     private void Update()
     {
-        if (objectToPlace.activeInHierarchy) {
+        if (rotatePlacedObjOnUpdate && objectToPlace.activeInHierarchy) {
             RotateObjectTowardCam(objectToPlace, arCamera);
         }
     }
