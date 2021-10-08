@@ -26,7 +26,6 @@ public class RibbonUI : MonoBehaviour
     {
         _originalScale = transform.localScale;
         _colliderMask = LayerMask.GetMask(Constants.Layers.DROPCOLLIDER);
-        Debug.Log("Main camera: " + Camera.main);
     }
 
     void OnDrag(PointerEventData data)
@@ -34,7 +33,6 @@ public class RibbonUI : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(data.position), out hit, _maxRaycastDistance, _colliderMask))
         {
-            Debug.Log("Hit detected: " + hit.transform.gameObject);
             if (hit.collider.gameObject.GetComponent<DropCollider>()?.ID == "lion")
             {
                 EnterHover();
@@ -48,13 +46,6 @@ public class RibbonUI : MonoBehaviour
         {
             ExitHover();
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Ray ray = new Ray(Camera.main.ScreenToWorldPoint(transform.position), Camera.main.transform.forward * 1000000f);
-        Gizmos.DrawRay(ray);
     }
 
     void EnterHover() {

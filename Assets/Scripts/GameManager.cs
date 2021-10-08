@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform _ribbonSlotsGridTransform;
     [SerializeField] TextManager _textManager;
     [SerializeField] Ribbon[] _ribbons; //Expected in order of completion
+    [SerializeField] ParticleSystem _confettiPS; 
 
     public static GameManager Instance;
 
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void GameOver() {
+        _confettiPS.Play();
         Debug.Log("Game over!");
     }
 
