@@ -6,30 +6,12 @@ using UnityEngine.EventSystems;
 
 public class RibbonUI : MonoBehaviour
 {
-    public RibbonSlot Slot {
-        get {
-            return _slot;
-        }
-        set {
-            _slot = value;
-        }
-    }
-
-    public ColorNames RibbonColor {
-        get {
-            return _color;
-        }
-        set {
-            _color = value;
-        }
-    }
+    public RibbonSlot Slot { get; set; }
+    public ColorNames RibbonColor { get; set; }
 
     [SerializeField] float _hoverSizeMultiplier = 2f;
 
     static float _maxRaycastDistance = Mathf.Infinity;
-
-    RibbonSlot _slot;
-    ColorNames _color;
     int _colliderMask;
     bool _hovering = false;
     Vector3 _originalScale;
@@ -38,23 +20,32 @@ public class RibbonUI : MonoBehaviour
     {
         GetComponent<Draggable>().OnDrag += OnDrag;
         GetComponent<Draggable>().OnEndDrag += OnEndDrag;
-        _originalScale = transform.localScale;
-        _colliderMask = LayerMask.GetMask(Constants.Layers.DROPCOLLIDER);
     }
 
-    void OnDrag(PointerEventData data) {
+    private void Start()
+    {
+        _originalScale = transform.localScale;
+        _colliderMask = LayerMask.GetMask(Constants.Layers.DROPCOLLIDER);
+        Debug.Log("Main camera: " + Camera.main);
+    }
+
+    void OnDrag(PointerEventData data)
+    {
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(data.position), out hit, _maxRaycastDistance, _colliderMask))
         {
+            Debug.Log("Hit detected: " + hit.transform.gameObject);
             if (hit.collider.gameObject.GetComponent<DropCollider>()?.ID == "lion")
             {
                 EnterHover();
             }
-            else {
+            else
+            {
                 ExitHover();
             }
         }
-        else {
+        else
+        {
             ExitHover();
         }
     }
@@ -88,8 +79,8 @@ public class RibbonUI : MonoBehaviour
     void OnEndDrag(PointerEventData data) {
         if (_hovering)
         {
-            Debug.Log(_color + " ribbon dropped on Lion");
-            if (GameManager.Instance.CurrentColor == _color)
+            Debug.Log(RibbonColor + " ribbon dropped on Lion");
+            if (GameManager.Instance.CurrentColor == RibbonColor)
             {
                 GameManager.Instance.CorrectChoice();
                 Destroy(gameObject);
@@ -108,6 +99,6 @@ public class RibbonUI : MonoBehaviour
     }
 
     public void ReturnToSlot() {
-        LeanTween.move(gameObject, _slot.transform, .5f).setEase(LeanTweenType.easeOutBounce);
+        LeanTween.move(gameObject, Slot.transform, .5f).setEase(LeanTweenType.easeOutBounce);
     }
 }

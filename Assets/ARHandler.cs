@@ -9,8 +9,6 @@ public class ARHandler : MonoBehaviour
     [SerializeField] Camera arCamera;
     [SerializeField] bool rotatePlacedObjOnUpdate = false;
 
-    GameObject spawnedObj;
-
     private void OnEnable()
     {
         PlaceOnPlaneLP.onObjectPlaced += OnObjectPlaced;
