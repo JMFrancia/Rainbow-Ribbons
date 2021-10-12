@@ -11,15 +11,16 @@ public class ARHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        PlaceOnPlaneLP.onObjectPlaced += OnObjectPlaced;
+        ARPlacementController.onObjectPlaced -= OnObjectPlaced;
+        ARPlacementController.onObjectPlaced += OnObjectPlaced;
     }
 
     private void OnDisable()
     {
-        PlaceOnPlaneLP.onObjectPlaced -= OnObjectPlaced;
+        ARPlacementController.onObjectPlaced -= OnObjectPlaced;
     }
 
-    void OnObjectPlaced(Pose pose, PlaceOnPlaneLP.TargetDistance targetDistance) {
+    void OnObjectPlaced(Pose pose, ARPlacementController.TargetDistance targetDistance) {
         objectToPlace.transform.position = pose.position;
         objectToPlace.transform.rotation = pose.rotation;
 

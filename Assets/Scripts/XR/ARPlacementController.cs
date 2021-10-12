@@ -7,8 +7,11 @@ using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
+/*
+ * Component in charge of controlling indicator GO, using it to place location for AR session
+ */
 [RequireComponent(typeof(ARRaycastManager))]
-public class PlaceOnPlaneLP : MonoBehaviour
+public class ARPlacementController : MonoBehaviour
 {
     [SerializeField] private Transform targetIndicator;
     [SerializeField] private float resetDelaySeconds = 1.0f;

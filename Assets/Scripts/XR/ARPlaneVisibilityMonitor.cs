@@ -14,6 +14,6 @@ public class ARPlaneVisibilityMonitor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        layerMaskSwitch.ToggleLayers(PlaceOnPlaneLP.PlacementStatus != PlaceOnPlaneLP.Status.Placed);
+        layerMaskSwitch.ToggleLayers(ARPlacementController.PlacementStatus != ARPlacementController.Status.Placed);
     }
 }
